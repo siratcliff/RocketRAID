@@ -20,7 +20,7 @@ I've shared updates that I've had to do to make my system work with the RocketRA
 ## Added support for DKMS
 - this should support the Ubuntu kernel to dynamically build this module when a kernel update is needed
 
-## Build and install with dkms
+### Build and install with dkms
 
 ```bash
 sudo dkms add -m rr232x -v 1.10
