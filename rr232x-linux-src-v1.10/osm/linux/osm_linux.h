@@ -198,8 +198,15 @@ typedef void irqreturn_t;
 #define scsi_to_pci_dma_dir(scsi_dir) ((int)(scsi_dir))
 #endif
 
+/* SR The 5.0 kernel dropped the type argument to access_ok()
+https://lkml.org/lkml/2019/1/4/418
+*/
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,11)
-#define hpt_verify_area(type, addr, size) (!access_ok((type), (addr), (size)))
+	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5,0,0)
+		#define hpt_verify_area(type, addr, size) (!access_ok((addr), (size)))
+	#else
+		#define hpt_verify_area(type, addr, size) (!access_ok((type), (addr), (size)))
+	#endif
 #else
 #define hpt_verify_area(type, addr, size) (verify_area((type), (addr), (size)))
 #endif

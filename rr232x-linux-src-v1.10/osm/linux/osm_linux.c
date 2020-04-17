@@ -2068,7 +2068,7 @@ invalid:
 	return -EINVAL;
 }
 
-static HPT_U32 hpt_scsi_ioctl_get_diskid(Scsi_Device * dev, int cmd, void *arg)
+static HPT_U32 hpt_scsi_ioctl_get_diskid(Scsi_Device * dev, unsigned int cmd, void *arg)
 {
 	if (cmd==0x3ff) {
 		int data[4];
@@ -2121,9 +2121,9 @@ static HPT_U32 hpt_scsi_ioctl_get_diskid(Scsi_Device * dev, int cmd, void *arg)
 }
 
 
-int (*hpt_scsi_ioctl_handler)(Scsi_Device * dev, int cmd, void *arg) = 0;
+int (*hpt_scsi_ioctl_handler)(Scsi_Device * dev, unsigned int cmd, void *arg) = 0;
 
-static int hpt_scsi_ioctl(Scsi_Device * dev, int cmd, void *arg)
+static int hpt_scsi_ioctl(Scsi_Device * dev, unsigned int cmd, void *arg)
 {
 	/* support for HDIO_xxx ioctls */
 	if ((cmd & 0xfffff300)==0x300) {
@@ -2267,7 +2267,9 @@ static Scsi_Host_Template driver_template = {
 	unchecked_isa_dma:       0,
 	emulated:                0,
 	/* ENABLE_CLUSTERING will cause problem when we handle PIO for highmem_io */
-	use_clustering:          DISABLE_CLUSTERING,
+	#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 0, 0)
+		use_clustering:          DISABLE_CLUSTERING,
+	#endif
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,5,0) /* 2.4.x */
 	use_new_eh_code:         1,
 	proc_name:               driver_name,
