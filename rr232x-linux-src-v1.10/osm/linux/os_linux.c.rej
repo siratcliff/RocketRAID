@@ -1,0 +1,11 @@
+--- rr232x-linux-src-v1.10/osm/linux/os_linux.c	2019-03-30 12:22:01.959015819 +0100
++++ rr232x-patched/osm/linux/os_linux.c	2019-02-26 18:13:25.000000000 +0100
+@@ -580,7 +583,7 @@ void  os_request_timer(void * osext, HPT
+ 
+ 	del_timer(&vbus_ext->timer);
+ 	vbus_ext->timer.function = os_timer_for_ldm;
+-#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)  /*MiSt: commit 686fef928bba6be13cabe639f154af7d72b63120 */
+ 	vbus_ext->timer.data = (unsigned long)vbus_ext;
+ #endif
+ 	vbus_ext->timer.expires = jiffies + 1 + interval / (1000000/HZ);

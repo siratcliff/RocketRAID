@@ -284,7 +284,7 @@ void refresh_sd_flags(PVBUS_EXT vbus_ext)
   block: remove ->driverfs_dev
   See https://lkml.org/lkml/2016/2/25/662 for hints on how to handle this change.
 */
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,4,0)  /*MiSt -- in OpenSuSE Leap this change has been backported to kernel version 4.4 (through a patch named ‘0144-block-remove-driverfs_dev.patch’, dated 2016-06-15) */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,8,0)
 						    struct device *gendisk_dev = disk_to_dev(cur_gendisk)->parent;
 #else
 						    struct device *gendisk_dev = cur_gendisk->driverfs_dev;
@@ -323,7 +323,7 @@ void refresh_sd_flags(PVBUS_EXT vbus_ext)
 							blkdev_put(bdev __BDEV_RAW);
 #endif
 							goto next;
-						    }
+                                                    }
 						}
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,28)
 						blkdev_put(bdev, FMODE_READ);
@@ -554,17 +554,9 @@ HPT_U8 os_get_vbus_seq(void *osext)
 	return ((PVBUS_EXT)osext)->host->host_no;
 }
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0)
-static void os_timer_for_ldm(struct timer_list *t)
-#else
 static void os_timer_for_ldm(unsigned long data)
-#endif
 {
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0)
-	PVBUS_EXT vbus_ext = from_timer(vbus_ext, t, timer);
-#else
 	PVBUS_EXT vbus_ext = (PVBUS_EXT)data;
-#endif
 	unsigned long flags;
 
 	spin_lock_irqsave(vbus_ext->lock, flags);
@@ -580,9 +572,7 @@ void  os_request_timer(void * osext, HPT_U32 interval)
 
 	del_timer(&vbus_ext->timer);
 	vbus_ext->timer.function = os_timer_for_ldm;
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
 	vbus_ext->timer.data = (unsigned long)vbus_ext;
-#endif
 	vbus_ext->timer.expires = jiffies + 1 + interval / (1000000/HZ);
 	add_timer(&vbus_ext->timer);
 }
