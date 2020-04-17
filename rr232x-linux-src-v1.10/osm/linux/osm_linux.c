@@ -2270,26 +2270,26 @@ static Scsi_Host_Template driver_template = {
 	#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 0, 0)
 		use_clustering:          DISABLE_CLUSTERING,
 	#endif
-#if LINUX_VERSION_CODE < KERNEL_VERSION(2,5,0) /* 2.4.x */
-	use_new_eh_code:         1,
-	proc_name:               driver_name,
-	proc_info:               hpt_proc_info24,
-	select_queue_depths:     NULL,
-	max_sectors:             128,
+	#if LINUX_VERSION_CODE < KERNEL_VERSION(2,5,0) /* 2.4.x */
+		use_new_eh_code:         1,
+		proc_name:               driver_name,
+		proc_info:               hpt_proc_info24,
+		select_queue_depths:     NULL,
+		max_sectors:             128,
 
-	#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,18))
-		highmem_io:              1,
+		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,18))
+			highmem_io:              1,
+		#endif
+	#else /* 2.6.x */
+		proc_name:               driver_name,
+		#if LINUX_VERSION_CODE < KERNEL_VERSION(3,10,0)  /*MiSt: commit 0ffddfbb834557b8babc7f050b83d11dbcbb1008 */
+			proc_info:               hpt_proc_info26,
+		#else
+			show_info:               hpt_proc_show_info,  /*see osm/linux/osm_linux.h,hptinfo.c*/
+			write_info:              hpt_proc_set_info,   /*see current file, line 1718*/
+		#endif
+		max_sectors:             128,
 	#endif
-#else /* 2.6.x */
-	proc_name:               driver_name,
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,10,0)  /*MiSt: commit 0ffddfbb834557b8babc7f050b83d11dbcbb1008 */
-	proc_info:               hpt_proc_info26,
-#else
-	show_info:               hpt_proc_show_info,  /*see osm/linux/osm_linux.h,hptinfo.c*/
-	write_info:              hpt_proc_set_info,   /*see current file, line 1718*/
-#endif
-	max_sectors:             128,
-#endif
 	this_id:                 -1
 
     #if LINUX_VERSION_CODE >= KERNEL_VERSION(4,17,0)

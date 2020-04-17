@@ -25,6 +25,7 @@ I've shared updates that I've had to do to make my system work with the RocketRA
 ```bash
 sudo git clone https://github.com/siratcliff/RocketRAID.git
 cd rr232x-linux-src-v1.10
+sudo cp -R * /usr/src/rr232x-1.10
 sudo dkms add -m rr232x -v 1.10
 sudo dkms build -m rr232x -v 1.10
 sudo dkms install -m rr232x -v 1.10
