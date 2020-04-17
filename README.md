@@ -4,7 +4,8 @@ RocketRAID Linux Kernel drivers for rr232x card
 ## About
 This is the open-source Linux driver for the HighPoint RocketRaid 232x controller.
 
-The origin open-source driver can be downloaded from the [official Highpoint website](http://www.highpoint-tech.com/USA_new/rr2300_download.htm).
+The original open-source driver used to be downloaded from the [official Highpoint website](http://www.highpoint-tech.com/USA_new/rr2300_download.htm).
+- it seems this link has been removed, probably due to it being legacy hardware
 
 ## Disclaimer/ important information
 This driver is provided as is, without warranty or liability. Use this at your own risk!
