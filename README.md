@@ -13,7 +13,7 @@ Please backup your data and try this in a safe way, ideally mounting the file sy
 I've shared updates that I've had to do to make my system work with the RocketRAID hardware I have to keep my system going.
 
 ## Patches applied
-- upto Kernel 4.7
+- upto Kernel 5.x (I seem to have mine working on 5.3)
 - new scsi
 - timer
 
@@ -60,3 +60,6 @@ Load kernel module:
 sudo modprobe rr232x
 ```
 
+## Attributions
+
+Need to add links to all the helpful posts and patches....
