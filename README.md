@@ -22,7 +22,12 @@ I've shared updates that I've had to do to make my system work with the RocketRA
 
 ## Build and install with dkms
 
-TODO: describe the steps....
+```bash
+sudo dkms add -m rr232x -v 1.10
+sudo dkms build -m rr232x -v 1.10
+sudo dkms install -m rr232x -v 1.10
+sudo modprobe rr232x
+```
 
 ## Build without dkms
 
