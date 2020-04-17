@@ -12,7 +12,7 @@ case ${KERNEL_VER} in
 	OBJ=o
 	MODVER=`modinfo -f%{kernel_version} ${PWD}/${TARGETNAME}.${OBJ}`
 	;;
-	2.6 | 3.* | 4.* )  #MiSt: tested for Linux 4.4.0-22
+	2.6 | 3.* | 4.* | 5.* )  #MiSt: tested for Linux 4.4.0-22 - SR added kernel v5 to test
 	OBJ=ko
 	MODVER=`modinfo -F vermagic ${PWD}/${TARGETNAME}.${OBJ} | cut -d' ' -f1`
 	;;
